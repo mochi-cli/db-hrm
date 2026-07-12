@@ -1,0 +1,48 @@
+{
+  "name": "hrm",
+  "displayName": "HRM",
+  "description": "HRM workspace for employees, attendance, and reviews.",
+  "version": "0.1.0",
+  "mochikit": ">=0.1.0",
+  "collections": [
+    {
+      "name": "employees",
+      "schema": {
+        "titleField": "name",
+        "fields": {
+          "name": "string",
+          "role": "string",
+          "department": "string",
+          "phone": "string",
+          "email": "string",
+          "status": "string",
+          "start_date": "date"
+        }
+      }
+    },
+    {
+      "name": "attendance",
+      "schema": {
+        "titleField": "date",
+        "fields": {
+          "employee_id": "string",
+          "date": "date",
+          "status": "present|absent|leave",
+          "note": "text"
+        }
+      }
+    },
+    {
+      "name": "reviews",
+      "schema": {
+        "titleField": "period",
+        "fields": {
+          "employee_id": "string",
+          "period": "string",
+          "score": "number",
+          "feedback": "text"
+        }
+      }
+    }
+  ]
+}

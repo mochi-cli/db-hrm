@@ -1,0 +1,10 @@
+{
+  "name": "reviews",
+  "titleField": "period",
+  "fields": {
+    "employee_id": "string",
+    "period": "string",
+    "score": "number",
+    "feedback": "text"
+  }
+}

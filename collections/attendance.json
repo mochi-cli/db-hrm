@@ -1,0 +1,10 @@
+{
+  "name": "attendance",
+  "titleField": "date",
+  "fields": {
+    "employee_id": "string",
+    "date": "date",
+    "status": "present|absent|leave",
+    "note": "text"
+  }
+}
