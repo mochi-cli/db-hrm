@@ -1,0 +1,13 @@
+{
+  "name": "Payroll",
+  "titleField": "payment_date",
+  "fields": {
+    "payroll_id": "primary_key",
+    "employee_id": "foreign_key:Employees(employee_id), required",
+    "payment_date": "date, required",
+    "gross_salary": "decimal(10,2), required",
+    "deductions": "decimal(10,2), default:0.00",
+    "net_salary": "generated:gross_salary - deductions",
+    "payment_method": "varchar(30), default:Bank Transfer"
+  }
+}

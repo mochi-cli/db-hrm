@@ -1,0 +1,10 @@
+{
+  "name": "Departments",
+  "titleField": "department_name",
+  "fields": {
+    "department_id": "primary_key",
+    "department_name": "varchar(100), unique, required",
+    "manager_id": "foreign_key:Employees(employee_id), nullable",
+    "location": "varchar(150), nullable"
+  }
+}

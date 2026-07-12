@@ -1,0 +1,10 @@
+{
+  "name": "Jobs",
+  "titleField": "job_title",
+  "fields": {
+    "job_id": "primary_key",
+    "job_title": "varchar(100), unique, required",
+    "min_salary": "decimal(10,2), required",
+    "max_salary": "decimal(10,2), required"
+  }
+}

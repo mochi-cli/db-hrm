@@ -1,48 +1,90 @@
 {
   "name": "hrm",
   "displayName": "HRM",
-  "description": "HRM workspace for employees, attendance, and reviews.",
-  "version": "0.1.0",
+  "description": "HRM workspace with Departments, Jobs, Employees, Attendance, and Payroll.",
+  "version": "0.2.0",
   "mochikit": ">=0.1.0",
   "collections": [
     {
-      "name": "employees",
+      "name": "Departments",
       "schema": {
-        "titleField": "name",
+        "titleField": "department_name",
         "fields": {
-          "name": "string",
-          "role": "string",
-          "department": "string",
-          "phone": "string",
-          "email": "string",
-          "status": "string",
-          "start_date": "date"
+          "department_id": "primary_key",
+          "department_name": "varchar(100), unique, required",
+          "manager_id": "foreign_key:Employees(employee_id), nullable",
+          "location": "varchar(150), nullable"
         }
       }
     },
     {
-      "name": "attendance",
+      "name": "Jobs",
       "schema": {
-        "titleField": "date",
+        "titleField": "job_title",
         "fields": {
-          "employee_id": "string",
-          "date": "date",
-          "status": "present|absent|leave",
-          "note": "text"
+          "job_id": "primary_key",
+          "job_title": "varchar(100), unique, required",
+          "min_salary": "decimal(10,2), required",
+          "max_salary": "decimal(10,2), required"
         }
       }
     },
     {
-      "name": "reviews",
+      "name": "Employees",
       "schema": {
-        "titleField": "period",
+        "titleField": "email",
         "fields": {
-          "employee_id": "string",
-          "period": "string",
-          "score": "number",
-          "feedback": "text"
+          "employee_id": "primary_key",
+          "first_name": "varchar(50), required",
+          "last_name": "varchar(50), required",
+          "email": "varchar(100), unique, required",
+          "phone_number": "varchar(20), nullable",
+          "hire_date": "date, required",
+          "job_id": "foreign_key:Jobs(job_id), required",
+          "department_id": "foreign_key:Departments(department_id), nullable",
+          "manager_id": "foreign_key:Employees(employee_id), nullable",
+          "salary": "decimal(10,2), required",
+          "status": "varchar(20), default:Active"
+        }
+      }
+    },
+    {
+      "name": "Attendance",
+      "schema": {
+        "titleField": "work_date",
+        "fields": {
+          "attendance_id": "primary_key",
+          "employee_id": "foreign_key:Employees(employee_id), required",
+          "work_date": "date, required",
+          "clock_in": "timestamp, nullable",
+          "clock_out": "timestamp, nullable",
+          "status": "varchar(20), default:Present",
+          "unique": "employee_id, work_date"
+        }
+      }
+    },
+    {
+      "name": "Payroll",
+      "schema": {
+        "titleField": "payment_date",
+        "fields": {
+          "payroll_id": "primary_key",
+          "employee_id": "foreign_key:Employees(employee_id), required",
+          "payment_date": "date, required",
+          "gross_salary": "decimal(10,2), required",
+          "deductions": "decimal(10,2), default:0.00",
+          "net_salary": "generated:gross_salary - deductions",
+          "payment_method": "varchar(30), default:Bank Transfer"
         }
       }
     }
+  ],
+  "relationships": [
+    "Departments.manager_id -> Employees.employee_id",
+    "Employees.job_id -> Jobs.job_id",
+    "Employees.department_id -> Departments.department_id",
+    "Employees.manager_id -> Employees.employee_id",
+    "Attendance.employee_id -> Employees.employee_id",
+    "Payroll.employee_id -> Employees.employee_id"
   ]
 }

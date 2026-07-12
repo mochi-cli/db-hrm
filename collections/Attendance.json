@@ -1,0 +1,13 @@
+{
+  "name": "Attendance",
+  "titleField": "work_date",
+  "fields": {
+    "attendance_id": "primary_key",
+    "employee_id": "foreign_key:Employees(employee_id), required",
+    "work_date": "date, required",
+    "clock_in": "timestamp, nullable",
+    "clock_out": "timestamp, nullable",
+    "status": "varchar(20), default:Present",
+    "unique": "employee_id, work_date"
+  }
+}

@@ -2,11 +2,21 @@
 
 This repository defines the `hrm` MochiKit workspace template.
 
-## Collections
+## Tables
 
-- `employees`: employee profiles, role, department, contact, and status
-- `attendance`: date-based attendance records
-- `reviews`: review periods, scores, and feedback
+- `Departments`
+- `Jobs`
+- `Employees`
+- `Attendance`
+- `Payroll`
+
+## Relationships
+
+- Departments can reference an employee as manager.
+- Employees belong to a job and can belong to a department.
+- Employees can reference another employee as manager.
+- Attendance belongs to employees.
+- Payroll belongs to employees.
 
 ## Use
 
