@@ -21,7 +21,7 @@ This repository defines the `hrm` MochiKit workspace template.
 ## Use
 
 ```bash
-mochikit init --template hrm
+mochi-cli init --template hrm
 ```
 
 MochiKit reads this template through its template registry.

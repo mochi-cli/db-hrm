@@ -2,9 +2,25 @@
   "name": "Departments",
   "titleField": "department_name",
   "fields": {
-    "department_id": "primary_key",
-    "department_name": "varchar(100), unique, required",
-    "manager_id": "foreign_key:Employees(employee_id), nullable",
-    "location": "varchar(150), nullable"
+    "department_id": {
+      "type": "primary_key"
+    },
+    "department_name": {
+      "type": "varchar(100)",
+      "unique": true,
+      "required": true
+    },
+    "manager_id": {
+      "type": "foreign_key",
+      "relation": {
+        "collection": "Employees",
+        "field": "employee_id"
+      },
+      "nullable": true
+    },
+    "location": {
+      "type": "varchar(150)",
+      "nullable": true
+    }
   }
 }

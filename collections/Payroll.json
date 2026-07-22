@@ -2,12 +2,39 @@
   "name": "Payroll",
   "titleField": "payment_date",
   "fields": {
-    "payroll_id": "primary_key",
-    "employee_id": "foreign_key:Employees(employee_id), required",
-    "payment_date": "date, required",
-    "gross_salary": "decimal(10,2), required",
-    "deductions": "decimal(10,2), default:0.00",
-    "net_salary": "generated:gross_salary - deductions",
-    "payment_method": "varchar(30), default:Bank Transfer"
+    "payroll_id": {
+      "type": "primary_key"
+    },
+    "employee_id": {
+      "type": "foreign_key",
+      "relation": {
+        "collection": "Employees",
+        "field": "employee_id"
+      },
+      "required": true
+    },
+    "payment_date": {
+      "type": "date",
+      "required": true
+    },
+    "gross_salary": {
+      "type": "decimal(10,2)",
+      "required": true
+    },
+    "deductions": {
+      "type": "decimal(10,2)",
+      "default": "0.00"
+    },
+    "net_salary": {
+      "type": "number",
+      "generated": {
+        "expression": "gross_salary - deductions"
+      },
+      "readOnly": true
+    },
+    "payment_method": {
+      "type": "varchar(30)",
+      "default": "Bank Transfer"
+    }
   }
 }

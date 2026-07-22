@@ -2,18 +2,34 @@
   "name": "hrm",
   "displayName": "HRM",
   "description": "HRM workspace with Departments, Jobs, Employees, Attendance, and Payroll.",
-  "version": "0.2.0",
-  "mochikit": ">=0.1.0",
+  "version": "0.2.1",
+  "mochi-cli": ">=0.1.0",
   "collections": [
     {
       "name": "Departments",
       "schema": {
         "titleField": "department_name",
         "fields": {
-          "department_id": "primary_key",
-          "department_name": "varchar(100), unique, required",
-          "manager_id": "foreign_key:Employees(employee_id), nullable",
-          "location": "varchar(150), nullable"
+          "department_id": {
+            "type": "primary_key"
+          },
+          "department_name": {
+            "type": "varchar(100)",
+            "unique": true,
+            "required": true
+          },
+          "manager_id": {
+            "type": "foreign_key",
+            "relation": {
+              "collection": "Employees",
+              "field": "employee_id"
+            },
+            "nullable": true
+          },
+          "location": {
+            "type": "varchar(150)",
+            "nullable": true
+          }
         }
       }
     },
@@ -22,10 +38,22 @@
       "schema": {
         "titleField": "job_title",
         "fields": {
-          "job_id": "primary_key",
-          "job_title": "varchar(100), unique, required",
-          "min_salary": "decimal(10,2), required",
-          "max_salary": "decimal(10,2), required"
+          "job_id": {
+            "type": "primary_key"
+          },
+          "job_title": {
+            "type": "varchar(100)",
+            "unique": true,
+            "required": true
+          },
+          "min_salary": {
+            "type": "decimal(10,2)",
+            "required": true
+          },
+          "max_salary": {
+            "type": "decimal(10,2)",
+            "required": true
+          }
         }
       }
     },
@@ -34,17 +62,62 @@
       "schema": {
         "titleField": "email",
         "fields": {
-          "employee_id": "primary_key",
-          "first_name": "varchar(50), required",
-          "last_name": "varchar(50), required",
-          "email": "varchar(100), unique, required",
-          "phone_number": "varchar(20), nullable",
-          "hire_date": "date, required",
-          "job_id": "foreign_key:Jobs(job_id), required",
-          "department_id": "foreign_key:Departments(department_id), nullable",
-          "manager_id": "foreign_key:Employees(employee_id), nullable",
-          "salary": "decimal(10,2), required",
-          "status": "varchar(20), default:Active"
+          "employee_id": {
+            "type": "primary_key"
+          },
+          "first_name": {
+            "type": "varchar(50)",
+            "required": true
+          },
+          "last_name": {
+            "type": "varchar(50)",
+            "required": true
+          },
+          "email": {
+            "type": "varchar(100)",
+            "unique": true,
+            "required": true
+          },
+          "phone_number": {
+            "type": "varchar(20)",
+            "nullable": true
+          },
+          "hire_date": {
+            "type": "date",
+            "required": true
+          },
+          "job_id": {
+            "type": "foreign_key",
+            "relation": {
+              "collection": "Jobs",
+              "field": "job_id"
+            },
+            "required": true
+          },
+          "department_id": {
+            "type": "foreign_key",
+            "relation": {
+              "collection": "Departments",
+              "field": "department_id"
+            },
+            "nullable": true
+          },
+          "manager_id": {
+            "type": "foreign_key",
+            "relation": {
+              "collection": "Employees",
+              "field": "employee_id"
+            },
+            "nullable": true
+          },
+          "salary": {
+            "type": "decimal(10,2)",
+            "required": true
+          },
+          "status": {
+            "type": "varchar(20)",
+            "default": "Active"
+          }
         }
       }
     },
@@ -53,14 +126,43 @@
       "schema": {
         "titleField": "work_date",
         "fields": {
-          "attendance_id": "primary_key",
-          "employee_id": "foreign_key:Employees(employee_id), required",
-          "work_date": "date, required",
-          "clock_in": "timestamp, nullable",
-          "clock_out": "timestamp, nullable",
-          "status": "varchar(20), default:Present",
-          "unique": "employee_id, work_date"
-        }
+          "attendance_id": {
+            "type": "primary_key"
+          },
+          "employee_id": {
+            "type": "foreign_key",
+            "relation": {
+              "collection": "Employees",
+              "field": "employee_id"
+            },
+            "required": true
+          },
+          "work_date": {
+            "type": "date",
+            "required": true
+          },
+          "clock_in": {
+            "type": "timestamp",
+            "nullable": true
+          },
+          "clock_out": {
+            "type": "timestamp",
+            "nullable": true
+          },
+          "status": {
+            "type": "varchar(20)",
+            "default": "Present"
+          }
+        },
+        "constraints": [
+          {
+            "type": "unique",
+            "fields": [
+              "employee_id",
+              "work_date"
+            ]
+          }
+        ]
       }
     },
     {
@@ -68,13 +170,40 @@
       "schema": {
         "titleField": "payment_date",
         "fields": {
-          "payroll_id": "primary_key",
-          "employee_id": "foreign_key:Employees(employee_id), required",
-          "payment_date": "date, required",
-          "gross_salary": "decimal(10,2), required",
-          "deductions": "decimal(10,2), default:0.00",
-          "net_salary": "generated:gross_salary - deductions",
-          "payment_method": "varchar(30), default:Bank Transfer"
+          "payroll_id": {
+            "type": "primary_key"
+          },
+          "employee_id": {
+            "type": "foreign_key",
+            "relation": {
+              "collection": "Employees",
+              "field": "employee_id"
+            },
+            "required": true
+          },
+          "payment_date": {
+            "type": "date",
+            "required": true
+          },
+          "gross_salary": {
+            "type": "decimal(10,2)",
+            "required": true
+          },
+          "deductions": {
+            "type": "decimal(10,2)",
+            "default": "0.00"
+          },
+          "net_salary": {
+            "type": "number",
+            "generated": {
+              "expression": "gross_salary - deductions"
+            },
+            "readOnly": true
+          },
+          "payment_method": {
+            "type": "varchar(30)",
+            "default": "Bank Transfer"
+          }
         }
       }
     }

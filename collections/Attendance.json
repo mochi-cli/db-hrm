@@ -2,12 +2,41 @@
   "name": "Attendance",
   "titleField": "work_date",
   "fields": {
-    "attendance_id": "primary_key",
-    "employee_id": "foreign_key:Employees(employee_id), required",
-    "work_date": "date, required",
-    "clock_in": "timestamp, nullable",
-    "clock_out": "timestamp, nullable",
-    "status": "varchar(20), default:Present",
-    "unique": "employee_id, work_date"
-  }
+    "attendance_id": {
+      "type": "primary_key"
+    },
+    "employee_id": {
+      "type": "foreign_key",
+      "relation": {
+        "collection": "Employees",
+        "field": "employee_id"
+      },
+      "required": true
+    },
+    "work_date": {
+      "type": "date",
+      "required": true
+    },
+    "clock_in": {
+      "type": "timestamp",
+      "nullable": true
+    },
+    "clock_out": {
+      "type": "timestamp",
+      "nullable": true
+    },
+    "status": {
+      "type": "varchar(20)",
+      "default": "Present"
+    }
+  },
+  "constraints": [
+    {
+      "type": "unique",
+      "fields": [
+        "employee_id",
+        "work_date"
+      ]
+    }
+  ]
 }
